@@ -4,21 +4,42 @@ import ToolSection from '@/components/ToolSection.astro'
 import Button from '@/components/Button.astro'
 
 const DESIGN = [
-	{
+{
 		name: 'Figma',
 		description: 'Design Tool',
 		href: 'https://www.figma.com/',
 		iconPath: 'figma',
+		iconBgColour: '#000001'
+	},
+	{
+		name: 'Photoshop',
+		description: 'Design Tool',
+		href: 'https://www.adobe.com/products/photoshop.html',
+		iconPath: 'photoshop',
+		iconBgColour: '#000001'
+	},
+	{
+		name: 'Illustrator',
+		description: 'Design Tool',
+		href: 'https://www.adobe.com/products/illustrator.html',
+		iconPath: 'illustrator',
+		iconBgColour: '#000001'
+	},
+	{
+		name: 'Lightroom',
+		description: 'Photo Editing',
+		href: 'https://www.adobe.com/products/lightroom.html',
+		iconPath: 'lightroom',
 		iconBgColour: '#000001'
 	}
 ]
 
 const PRODUCTIVITY = [
 	{
-		name: 'Arc',
+		name: 'Chrome',
 		description: 'Browser',
-		href: 'https://arc.net/',
-		iconPath: 'arc',
+		href: 'https://chrome.com/',
+		iconPath: 'chrome',
 		iconBgColour: '#414350'
 	},
 	{
@@ -34,10 +55,31 @@ const PRODUCTIVITY = [
 		href: 'https://obsidian.md/',
 		iconPath: 'obsidian',
 		iconBgColour: '#7A3EE8'
+	},
+	{
+		name: 'Clickup',
+		description: 'Project Management',
+		href: 'https://clickup.com/',
+		iconPath: 'clickup',
+		iconBgColour: '#06A67F'
+	},
+	{
+		name: 'Microsoft',
+		description: 'Office Suite',
+		href: 'https://www.office.com/',
+		iconPath: 'ms',
+		iconBgColour: '#06A67F'
 	}
 ]
 
 const DEVELOPMENT = [
+{
+		name: 'PHPStorm',
+		description: 'IDE',
+		href: 'https://www.jetbrains.com/phpstorm/',
+		iconPath: 'phpstorm',
+		iconBgColour: '#2C2C32'
+	},
 	{
 		name: 'VS Code',
 		description: 'IDE',
@@ -46,10 +88,17 @@ const DEVELOPMENT = [
 		iconBgColour: '#2C2C32'
 	},
 	{
-		name: 'ChatGPT',
-		description: 'AI',
-		href: 'https://chat.openai.com/',
-		iconPath: 'chatgpt',
+		name: 'Warp',
+		description: 'terminal',
+		href: 'https://www.warp.dev/',
+		iconPath: 'warp',
+		iconBgColour: '#06A67F'
+	},
+	{
+		name: 'GitHub',
+		description: 'Version Control',
+		href: 'https://www.github.com/',
+		iconPath: 'github',
 		iconBgColour: '#06A67F'
 	}
 ]
