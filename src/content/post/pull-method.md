@@ -10,7 +10,7 @@ Returns and resets a livewire property in one:
 ```php
 public $title = '';
 
-public function add($id)
+public function add()
 {
     Post::create([
         'title' => $this->title;
@@ -25,7 +25,7 @@ Now becomes:
 ```php
 public $title = '';
 
-public function add($id)
+public function add()
 {
     Post::create([
         'title' => $this->pull('title');
