@@ -1,5 +1,5 @@
 ---
-title: "Livewire Pull Property"
+title: "Livewire Pull Method"
 publishDate: "22 April 2024"
 description: "Livewire Snippet"
 tags: ["livewire"]
