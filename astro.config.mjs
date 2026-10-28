@@ -5,6 +5,6 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 // Redirects for URLs from the old site (blog, tags, tools, RSS) live in vercel.json.
 export default defineConfig({
-	site: 'https://joelohr.com',
+	site: 'https://www.joelohr.com',
 	integrations: [sitemap()],
 });
