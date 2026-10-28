@@ -1,135 +1,306 @@
 ---
-import PageLayout from '../layouts/BaseLayout.astro'
-import Section from '../components/Section.astro'
-import Card from '../components/Card.astro'
-import ProjectCard from '../components/ProjectCard.astro'
-import Label from '../components/Label.astro'
-import SkillLayout from '../components/SkillLayout.astro'
+import { Image } from 'astro:assets';
+import ContributionGraph from '../components/ContributionGraph.astro';
+import me from '../assets/me.jpg';
+import { profile, jobs, projects, skills } from '../data/resume';
 
-import { Image } from 'astro:assets'
-import astro from '../assets/me.jpg'
-
-const languages = ['PHP', 'Javascript']
-const frontend = ['Livewire', 'HTML', 'CSS', 'Flux UI', 'Tailwind CSS', 'Alpine.js']
-const backend = ['Laravel', 'Livewire', 'MySQL', 'SQLite', 'Filament', 'WordPress']
-const others = ['Pest','Larastan', 'OOPHP', 'MVC', 'Git', 'Ploi', 'DigitalOcean', 'Sentry', 'Cloudflare', 'Mailgun', 'Photography', 'Video', 'Photoshop', 'Illustrator', 'Premiere Pro']
+const description = `${profile.name} is a ${profile.role} in ${profile.location}, building compliance software with Laravel, Inertia and Vue.`;
 ---
 
-<PageLayout meta={{ title: 'Home' }}>
-	<div class='flex w-full flex-col gap-y-10'>
-		<section class='flex flex-col items-center gap-y-7'>
-			<Image
-				src={astro}
-				alt='profile photo'
-				class='h-28 w-auto rounded-full p-2'
-				loading='eager'
-			/>
-
-			<div class='flex flex-col items-center gap-y-4'>
-				<div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-					<Label title='Automotive Risk Management Partners'>
-						<svg xmlns="http://www.w3.org/2000/svg" class='h-6 w-6' slot='icon' fill="none" color="#000"><path fill="currentColor" d="m12 14-.226.715.226.072.226-.072L12 14Zm-9.5-3h-.75v.55l.524.165L2.5 11Zm19 0 .225.715.524-.165V11h-.75Zm0-5h.75a.75.75 0 0 0-.75-.75V6Zm-19 0v-.75a.75.75 0 0 0-.75.75h.75Zm0 .75h19v-1.5h-19v1.5Zm18.774 3.535-9.5 3 .452 1.43 9.5-3-.452-1.43Zm-9.048 3-9.5-3-.452 1.43 9.5 3 .452-1.43ZM1.75 6v5h1.5V6h-1.5Zm20.5 5V6h-1.5v5h1.5Z"/><path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="m3.463 11.5-.001 10h17.075v-10M15.5 6V2.5h-7V6"/></svg>
-					</Label>
-					<Label title='Island Lake, Illinois'>
-						<svg xmlns="http://www.w3.org/2000/svg" class='h-6 w-6' slot='icon' fill="none" color="#000"><path stroke="currentColor" stroke-width="1.5" d="M15.5 11a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"/><path stroke="currentColor" stroke-width="1.5" d="M21 11c0 7-9 11-9 11s-9-4-9-11a9 9 0 0 1 18 0Z"/></svg>
-					</Label>
-					<Label
-						title='Connect on Linkedin'
-						as='a'
-						href='https://www.linkedin.com/in/joelohrdev/'
-						target='_blank'
-					>
-					<svg xmlns="http://www.w3.org/2000/svg" class='h-6 w-6' slot='icon' fill="none" color="#000"><path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="M7 9v8M11 13v4m0-4a3 3 0 1 1 6 0v4m-6-4V9"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.008 7h-.009"/><path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="1.5" d="M21 3v18H3V3h18Z"/></svg>
-					</Label>
-					<Label
-						title='emailme@joelohr.com'
-						as='a'
-						href='mailto:emailme@joelohr.com'
-					>
-					<svg xmlns="http://www.w3.org/2000/svg" class='h-6 w-6' slot='icon' fill="none" color="#000"><path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="M22 11V2.5H2v17h8"/><path stroke="currentColor" stroke-width="1.5" d="m6 7 6 4 6-4"/><path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="M19 17a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 0v.5a1.5 1.5 0 0 0 3 0V17a4.5 4.5 0 1 0-4.5 4.5"/></svg>
-					</Label>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light" />
+		<meta name="description" content={description} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap"
+		/>
+		<title>{profile.name}, {profile.role}</title>
+	</head>
+	<body>
+		<main>
+			<header class="intro">
+				<div class="who">
+					<Image src={me} alt={profile.name} width={112} height={112} class="portrait" loading="eager" />
+					<div>
+						<h1>{profile.name}</h1>
+						<p class="muted">{profile.role}, {profile.location}</p>
+					</div>
 				</div>
-			</div>
-		</section>
-
-		<Section title='About'>
-			<p class='text-muted-foreground'>
-				Full Stack Developer with 13 years of experience building websites and web applications. I specialize in Laravel and Livewire, but I am also proficient in WordPress, TailwindCSS, Alpine.js, and more. I am a self-starter and a quick learner, always looking to improve my skills and learn new technologies. I am currently working as a Laravel Web App Developer for Automotive Risk Management Partners, building and maintaining a compliance dashboard for the automotive industry.
-			</p>
-		</Section>
-
-		<Section title='Experience'>
-			<Card
-				heading='Automotive Risk Management Partners'
-				subheading='Laravel Web App Developer'
-				date='Dec 2022 - Current'
-				imagePath='/src/assets/binary.png'
-				altText='Automotive Risk Management Partners'
-				imageClass='h-8 w-auto md:-left-16 opacity-0'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>Sole developer to build and manage a compliance dashboard.</li>
-					<li>Built with the TALL stack (TailwindCSS, Alpinejs, Laravel, Livewire)</li>
-					<li>Features: Multi-Tenancy, Employee Invites, Roles/Permissions, Courses/Quizes, PDF Report Generation,
-						Vendor Forms, Audit Forms, 3rd party API Intergrations, Notifications, Email Reminders, and more.
-					</li>
-					<li>Custom CRM built with Laravel and filament to manage potential and current clients and contacts, integrated with 
-						the MailCoach API to add new contacts to mailing lists.</li>
-					<li> Custom built and managed WordPress marketing site.</li>
+				<ul class="contact">
+					<li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+					<li><a href={profile.linkedin}>LinkedIn</a></li>
+					<li><a href={`https://github.com/${profile.github}`}>GitHub</a></li>
 				</ul>
-			</Card>
-			<Card
-				heading='TurnKey Digital'
-				subheading='WordPress Developer'
-				date='Mar 2011 - Dec 2022'
-				imagePath='/src/assets/binary.png'
-				altText='TurnKey Digital'
-				imageClass='h-8 w-auto md:-left-16 opacity-0'
-			>
-			<ul class='ml-4 list-disc text-muted-foreground'>
-				<li>Built custom WordPress websites for local businesses</li>
-				<li>Product/Location Photography and Video</li>
-			</ul>
-			</Card>
-		</Section>
+			</header>
 
-		<Section title='Projects'>
-			<div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
-				<ProjectCard
-					as='div'
-					subheading='Web App for Automotive Risk Management Partners using Laravel and Livewire'
-					imagePath='/src/assets/armp.png'
-					altText='ARMP'
-					class='w-full'
-				/>
-				<ProjectCard
-					as='div'
-					subheading='Website for Automotive Risk Management Partners using Wordpress'
-					imagePath='/src/assets/autorisknow.png'
-					altText='ARMP Website'
-					class='w-full'
-				/>
-				<ProjectCard
-					as='div'
-					subheading='Website for Automotive Risk Management Partners using Laravel and Livewire'
-					imagePath='/src/assets/whitepaper.png'
-					altText='ARMP Whitepaper'
-					class='w-full'
-				/>
-				<ProjectCard
-					subheading='Website to track Tournaments and Games using Laravel and Filament'
-					imagePath='/src/assets/jl.png'
-					altText='Jacob Lohr'
-					class='w-full'
-				/>
-			</div>
-		</Section>
+			<p class="lede">
+				I'm the only developer at Automotive Risk Management Partners, where I build and run their compliance
+				software with Laravel, Inertia and Vue. Before that I spent almost twelve years building WordPress
+				sites for local businesses.
+			</p>
 
-		<Section title='Skills'>
-			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frontend' skills={frontend} />
-			<SkillLayout title='Backend' skills={backend} />
-			<SkillLayout title='Others' skills={others} />
-		</Section>
-	</div>
-</PageLayout>
+			<ContributionGraph user={profile.github} />
+
+			<section aria-labelledby="experience">
+				<h2 id="experience">Experience</h2>
+				<ol class="jobs">
+					{jobs.map((job) => (
+						<li>
+							<div class="line">
+								<h3>{job.company}</h3>
+								<p class="muted">
+									{job.start} to {job.end}
+								</p>
+							</div>
+							<p class="muted">{job.title}</p>
+							<ul>
+								{job.points.map((p) => (
+									<li>{p}</li>
+								))}
+							</ul>
+						</li>
+					))}
+				</ol>
+			</section>
+
+			<section aria-labelledby="projects">
+				<h2 id="projects">Projects</h2>
+				<ul class="projects">
+					{projects.map((p) => (
+						<li>
+							<div class="line">
+								<h3>{p.url ? <a href={p.url}>{p.name}</a> : p.name}</h3>
+								<p class="muted">{p.stack}</p>
+							</div>
+							<p>{p.note}</p>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section aria-labelledby="skills">
+				<h2 id="skills">Skills</h2>
+				<dl class="pairs">
+					{skills.map((s) => (
+						<>
+							<dt>{s.group}</dt>
+							<dd>{s.items.join(', ')}</dd>
+						</>
+					))}
+				</dl>
+			</section>
+		</main>
+
+		<footer class="muted">
+			<p>© {new Date().getFullYear()} {profile.name}</p>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--paper: #f6f7f9;
+		--ink: #24292f;
+		--muted: #67707a;
+		--rule: #dfe3e8;
+		--surface: #ffffff;
+		--link: #1a7f4b;
+		color-scheme: light;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		margin: 0;
+		background: var(--paper);
+		color: var(--ink);
+		font-family: 'Hanken Grotesk', system-ui, sans-serif;
+		font-size: 0.90625rem;
+		line-height: 1.6;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-color: var(--rule);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.22em;
+	}
+
+	a:hover {
+		color: var(--link);
+		text-decoration-color: currentColor;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--link);
+		outline-offset: 2px;
+	}
+
+	.muted {
+		color: var(--muted);
+	}
+</style>
+
+<style>
+	main,
+	footer {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	p,
+	h1,
+	h2,
+	h3 {
+		margin: 0;
+	}
+
+	.intro {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem 2rem;
+		padding: 4rem 0 1.5rem;
+	}
+
+	@media (min-width: 640px) {
+		.intro {
+			padding-top: 6rem;
+		}
+	}
+
+	.who {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+	}
+
+	.portrait {
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	h1 {
+		font-size: 1.125rem;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	.contact {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lede {
+		margin-bottom: 2rem;
+		font-size: 1rem;
+	}
+
+	section {
+		margin-top: 3rem;
+	}
+
+	section > h2 {
+		margin-bottom: 1rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: var(--muted);
+	}
+
+	h3 {
+		font-size: inherit;
+		font-weight: 600;
+	}
+
+	/* Name on the left, dates or stack on the right. */
+	.line {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0 1rem;
+	}
+
+	.jobs,
+	.projects {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+	}
+
+	.jobs {
+		gap: 1.75rem;
+	}
+
+	.projects {
+		gap: 1.125rem;
+	}
+
+	.jobs ul {
+		margin: 0.5rem 0 0;
+		padding-left: 1rem;
+	}
+
+	.jobs ul li + li {
+		margin-top: 0.25rem;
+	}
+
+	.jobs ul li::marker {
+		color: var(--muted);
+	}
+
+	.pairs {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0 1.5rem;
+		margin: 0;
+	}
+
+	@media (min-width: 560px) {
+		.pairs {
+			grid-template-columns: 9rem 1fr;
+			row-gap: 0.375rem;
+		}
+	}
+
+	.pairs dt {
+		color: var(--muted);
+	}
+
+	.pairs dd {
+		margin: 0 0 0.5rem;
+	}
+
+	@media (min-width: 560px) {
+		.pairs dd {
+			margin: 0;
+		}
+	}
+
+	footer {
+		padding-top: 4rem;
+		padding-bottom: 3rem;
+		font-size: 0.8125rem;
+	}
+</style>

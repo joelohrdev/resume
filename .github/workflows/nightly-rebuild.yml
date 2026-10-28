@@ -1,0 +1,19 @@
+# The contribution graph is fetched at build time, so rebuild nightly to keep it current.
+# Needs a repo secret VERCEL_DEPLOY_HOOK: a deploy hook URL from Vercel > Settings > Git > Deploy Hooks.
+name: Nightly rebuild
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # 09:00 UTC, early morning in Illinois
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "VERCEL_DEPLOY_HOOK secret is not set"; exit 1; fi
+          curl -fsS -X POST "$HOOK"

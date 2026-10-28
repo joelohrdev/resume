@@ -1,0 +1,215 @@
+---
+import { getContributions, type Day } from '../lib/contributions';
+
+interface Props {
+	user: string;
+	year?: number;
+}
+
+const { user, year = new Date().getFullYear() } = Astro.props;
+const calendar = await getContributions(user, year);
+const today = new Date().toISOString().slice(0, 10);
+const profile = `https://github.com/${user}`;
+
+const fmt = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const plural = (n: number) => `${n.toLocaleString('en-US')} contribution${n === 1 ? '' : 's'}`;
+const tip = (d: Day) => `${d.count ? plural(d.count) : 'No contributions'} on ${fmt.format(new Date(`${d.date}T00:00:00Z`))}`;
+
+const busiest = calendar?.weeks.flat().reduce<Day | null>((best, d) => (d && (!best || d.count > best.count) ? d : best), null);
+const summary = busiest?.count
+	? `Busiest day: ${fmt.format(new Date(`${busiest.date}T00:00:00Z`))}, with ${plural(busiest.count)}`
+	: '';
+---
+
+<section class="graph" aria-labelledby="graph-title">
+	{calendar ? (
+		<>
+			<div class="graph-head">
+				<h2 id="graph-title">{plural(calendar.total)} in {calendar.year}</h2>
+				<a href={profile}>github.com/{user}</a>
+			</div>
+			<div class="graph-scroll" data-graph-scroll>
+				<div class="grid" style={`--weeks: ${calendar.weeks.length}`} aria-hidden="true">
+					{calendar.months.map((m) => (
+						<span class="month" style={`grid-column: ${m.week + 2}`}>{m.label}</span>
+					))}
+					<span class="weekday" style="grid-row: 3">Mon</span>
+					<span class="weekday" style="grid-row: 5">Wed</span>
+					<span class="weekday" style="grid-row: 7">Fri</span>
+					{calendar.weeks.map((week, w) =>
+						week.map((d, i) =>
+							d ? (
+								<span
+									class:list={['day', `l${d.level}`, { future: d.date > today, today: d.date === today }]}
+									style={`grid-column: ${w + 2}; grid-row: ${i + 2}`}
+									data-tip={tip(d)}
+									title={tip(d)}
+								/>
+							) : null,
+						),
+					)}
+				</div>
+			</div>
+			<div class="graph-foot">
+				<p class="readout" data-graph-readout data-default={summary} aria-live="polite">{summary}</p>
+				<div class="legend" aria-hidden="true">
+					Less
+					<span class="day l0" /><span class="day l1" /><span class="day l2" /><span class="day l3" /><span class="day l4" />
+					More
+				</div>
+			</div>
+		</>
+	) : (
+		<h2 id="graph-title">
+			Code: <a href={profile}>github.com/{user}</a>
+		</h2>
+	)}
+</section>
+
+<script>
+	for (const scroller of document.querySelectorAll<HTMLElement>('[data-graph-scroll]')) {
+		const readout = scroller.parentElement?.querySelector<HTMLElement>('[data-graph-readout]');
+
+		// On narrow screens, start scrolled to the current week instead of January.
+		const today = scroller.querySelector<HTMLElement>('.today');
+		if (today && scroller.scrollWidth > scroller.clientWidth) {
+			scroller.scrollLeft = today.offsetLeft - scroller.clientWidth + today.offsetWidth * 4;
+		}
+
+		if (!readout) continue;
+		scroller.addEventListener('pointerover', (e) => {
+			const tip = (e.target as HTMLElement).dataset.tip;
+			if (tip) readout.textContent = tip;
+		});
+		scroller.addEventListener('pointerleave', () => {
+			readout.textContent = readout.dataset.default ?? '';
+		});
+	}
+</script>
+
+<style>
+	/* A white box like GitHub's own, so the graph reads as the one panel on the page. */
+	.graph {
+		--l0: #ebeef1;
+		--l1: #aceebb;
+		--l2: #4ac26b;
+		--l3: #2da44e;
+		--l4: #116329;
+		padding: 1rem 1rem 0.875rem;
+		background: var(--surface);
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+	}
+
+	.graph-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.25rem 1rem;
+		margin-bottom: 0.875rem;
+	}
+
+	h2 {
+		margin: 0;
+		font-size: 0.9375rem;
+		font-weight: 600;
+	}
+
+	.graph-head a {
+		font-size: 0.8125rem;
+		color: var(--muted);
+	}
+
+	.graph-scroll {
+		overflow-x: auto;
+		scrollbar-width: thin;
+		padding-bottom: 0.25rem;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: 1.75rem repeat(var(--weeks), 10px);
+		grid-template-rows: auto repeat(7, auto);
+		gap: 2px;
+		width: max-content;
+	}
+
+	/* Wide enough for the whole year: let the cells fill the box. */
+	@media (min-width: 640px) {
+		.grid {
+			grid-template-columns: 1.75rem repeat(var(--weeks), minmax(7px, 1fr));
+			width: auto;
+		}
+	}
+
+	.month,
+	.weekday {
+		font-size: 0.6875rem;
+		color: var(--muted);
+		line-height: 1;
+	}
+
+	.month {
+		grid-row: 1;
+		padding-bottom: 0.3rem;
+		white-space: nowrap;
+	}
+
+	.weekday {
+		grid-column: 1;
+		align-self: center;
+	}
+
+	.day {
+		display: block;
+		aspect-ratio: 1;
+		border-radius: 2px;
+		background: var(--l0);
+	}
+
+	.l1 { background: var(--l1); }
+	.l2 { background: var(--l2); }
+	.l3 { background: var(--l3); }
+	.l4 { background: var(--l4); }
+
+	.day.future {
+		background: transparent;
+		box-shadow: inset 0 0 0 1px var(--l0);
+	}
+
+	.day.today,
+	.grid .day:hover {
+		outline: 1px solid var(--ink);
+		outline-offset: 1px;
+	}
+
+	.graph-foot {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.25rem 1.5rem;
+		margin-top: 0.625rem;
+		font-size: 0.75rem;
+		color: var(--muted);
+	}
+
+	.readout {
+		margin: 0;
+		min-height: 1.5em;
+	}
+
+	.legend {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+
+	.legend .day {
+		width: 9px;
+	}
+
+	.legend .l0 { margin-left: 0.3rem; }
+	.legend .l4 { margin-right: 0.3rem; }
+</style>
