@@ -35,9 +35,9 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 				</div>
 				<ul class="contact">
 					<li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
-					<li><a href={profile.linkedin}>LinkedIn</a></li>
-					<li><a href={`https://github.com/${profile.github}`}>GitHub</a></li>
-					<li><a class="pdf" href="/joe-lohr-resume.pdf" download>Download PDF</a></li>
+					<li class="screen-only"><a href={profile.linkedin}>LinkedIn</a></li>
+					<li class="screen-only"><a href={`https://github.com/${profile.github}`}>GitHub</a></li>
+					<li class="screen-only"><a class="pdf" href="/joe-lohr-resume.pdf" download>Download PDF</a></li>
 				</ul>
 			</header>
 
@@ -369,7 +369,7 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 	}
 
 	@media print {
-		.pdf {
+		.screen-only {
 			display: none;
 		}
 
