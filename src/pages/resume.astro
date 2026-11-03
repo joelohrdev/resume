@@ -1,0 +1,80 @@
+---
+// The full resume. Not linked from the site and not indexed: it exists so
+// `npm run pdf` has something to print. The home page is the portfolio.
+import Base from '../layouts/Base.astro';
+import { profile, jobs, projects, skills, caseStudy } from '../data/resume';
+
+const description = `Resume of ${profile.name}, ${profile.role}.`;
+---
+
+<Base title={`${profile.name}, resume`} description={description} noindex>
+	<p class="lede">
+		I've been building websites and web apps for 15 years. Right now I'm the only developer at Automotive
+		Risk Management Partners, where I build and run the company's multi-tenant Laravel platform that car
+		dealerships use for compliance, including an AI assistant that answers questions from each dealership's
+		own records. I work directly with our consultants, leadership and dealerships, from the first
+		requirements meeting to demos, docs and support tickets.
+	</p>
+
+	<section aria-labelledby="experience">
+		<h2 id="experience">Experience</h2>
+		<ol class="jobs">
+			{jobs.map((job) => (
+				<li>
+					<div class="line">
+						<h3>{job.company}</h3>
+						<p class="muted">
+							{job.start} to {job.end}
+						</p>
+					</div>
+					<p class="muted">{job.title}</p>
+					<ul>
+						{job.points.map((p) => (
+							<li>{p}</li>
+						))}
+					</ul>
+				</li>
+			))}
+		</ol>
+	</section>
+
+	<section aria-labelledby="projects">
+		<h2 id="projects">Projects</h2>
+		<ul class="projects">
+			{projects.map((p) => (
+				<li>
+					<div class="line">
+						<h3>{p.url ? <a href={p.url}>{p.name}</a> : p.name}</h3>
+						<p class="muted">{p.stack}</p>
+					</div>
+					<p>{p.note}</p>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<section aria-labelledby="case-study">
+		<h2 id="case-study">Case study</h2>
+		<h3 class="case-title">{caseStudy.title}</h3>
+		<dl class="pairs">
+			{caseStudy.parts.map((part) => (
+				<>
+					<dt>{part.label}</dt>
+					<dd>{part.text}</dd>
+				</>
+			))}
+		</dl>
+	</section>
+
+	<section aria-labelledby="skills">
+		<h2 id="skills">Skills</h2>
+		<dl class="pairs">
+			{skills.map((s) => (
+				<>
+					<dt>{s.group}</dt>
+					<dd>{s.items.join(', ')}</dd>
+				</>
+			))}
+		</dl>
+	</section>
+</Base>

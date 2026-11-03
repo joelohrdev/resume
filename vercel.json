@@ -4,6 +4,7 @@
 		{ "source": "/blog/:path*", "destination": "/", "permanent": true },
 		{ "source": "/tags/:path*", "destination": "/", "permanent": true },
 		{ "source": "/tools/:path*", "destination": "/", "permanent": true },
-		{ "source": "/rss.xml", "destination": "/", "permanent": true }
+		{ "source": "/rss.xml", "destination": "/", "permanent": true },
+		{ "source": "/joe-lohr-resume.pdf", "destination": "/", "permanent": false }
 	]
 }

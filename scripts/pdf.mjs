@@ -1,6 +1,6 @@
-// Renders the built site (dist/) to public/joe-lohr-resume.pdf with headless Chrome.
-// `npm run pdf` builds, writes the PDF, then builds again so dist/ includes it.
-// Run it after changing resume content, then commit the PDF.
+// Renders the built /resume page (dist/) to pdf/joe-lohr-resume.pdf with headless Chrome.
+// `npm run pdf` builds, then writes the PDF. It isn't published on the site; send it
+// directly. Run it after changing resume content, then commit the PDF.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { existsSync } from 'node:fs';
@@ -9,7 +9,7 @@ import { createServer } from 'node:http';
 import { extname, join, resolve } from 'node:path';
 
 const root = resolve('dist');
-const out = resolve('public/joe-lohr-resume.pdf');
+const out = resolve('pdf/joe-lohr-resume.pdf');
 const types = {
 	'.html': 'text/html',
 	'.css': 'text/css',
@@ -56,7 +56,7 @@ try {
 			'--no-pdf-header-footer',
 			'--virtual-time-budget=5000',
 			`--print-to-pdf=${out}`,
-			`http://127.0.0.1:${server.address().port}/`,
+			`http://127.0.0.1:${server.address().port}/resume/`,
 		],
 		{ timeout: 60_000 },
 	);

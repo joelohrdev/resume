@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "pdf": "astro build && node scripts/pdf.mjs && astro build"
+    "pdf": "astro build && node scripts/pdf.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
