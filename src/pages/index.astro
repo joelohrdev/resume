@@ -37,6 +37,7 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 					<li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
 					<li><a href={profile.linkedin}>LinkedIn</a></li>
 					<li><a href={`https://github.com/${profile.github}`}>GitHub</a></li>
+					<li><a class="pdf" href="/joe-lohr-resume.pdf" download>Download PDF</a></li>
 				</ul>
 			</header>
 
@@ -165,6 +166,33 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 	.muted {
 		color: var(--muted);
 	}
+
+	@page {
+		margin: 0.5in;
+	}
+
+	@media print {
+		body {
+			background: #fff;
+			font-size: 9.5pt;
+			line-height: 1.45;
+		}
+
+		.graph,
+		body > footer {
+			display: none;
+		}
+
+		.jobs > li,
+		.projects > li,
+		.pairs dd {
+			break-inside: avoid;
+		}
+
+		section > h2 {
+			break-after: avoid;
+		}
+	}
 </style>
 
 <style>
@@ -223,6 +251,24 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 		margin: 0;
 		padding: 0;
 		list-style: none;
+	}
+
+	.contact {
+		align-items: center;
+		row-gap: 0.5rem;
+	}
+
+	.pdf {
+		display: inline-block;
+		padding: 0.125rem 0.625rem;
+		border: 1px solid var(--rule);
+		border-radius: 6px;
+		background: var(--surface);
+		text-decoration: none;
+	}
+
+	.pdf:hover {
+		border-color: var(--link);
 	}
 
 	.lede {
@@ -320,5 +366,44 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 		padding-top: 4rem;
 		padding-bottom: 3rem;
 		font-size: 0.8125rem;
+	}
+
+	@media print {
+		.pdf {
+			display: none;
+		}
+
+		.intro {
+			padding: 0 0 1rem;
+		}
+
+		.lede {
+			margin-bottom: 0;
+			font-size: inherit;
+		}
+
+		section {
+			margin-top: 1.5rem;
+		}
+
+		section > h2 {
+			margin-bottom: 0.5rem;
+		}
+
+		.jobs {
+			gap: 1rem;
+		}
+
+		.projects {
+			gap: 0.75rem;
+		}
+
+		.jobs ul li + li {
+			margin-top: 0.125rem;
+		}
+
+		.pairs {
+			row-gap: 0.25rem;
+		}
 	}
 </style>
