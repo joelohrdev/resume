@@ -2,9 +2,9 @@
 import { Image } from 'astro:assets';
 import ContributionGraph from '../components/ContributionGraph.astro';
 import me from '../assets/me.jpg';
-import { profile, jobs, projects, skills } from '../data/resume';
+import { profile, jobs, projects, skills, caseStudy } from '../data/resume';
 
-const description = `${profile.name} is a ${profile.role} in ${profile.location}, building compliance software with Laravel, Inertia and Vue.`;
+const description = `${profile.name} is a ${profile.role} in ${profile.location}, building AI-powered compliance software for car dealerships with Laravel.`;
 ---
 
 <html lang="en">
@@ -20,7 +20,7 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap"
 		/>
-		<title>{profile.name}, {profile.role}</title>
+		<title>{profile.name}, {profile.headline}</title>
 	</head>
 	<body>
 		<main>
@@ -29,7 +29,8 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 					<Image src={me} alt={profile.name} width={112} height={112} class="portrait" loading="eager" />
 					<div>
 						<h1>{profile.name}</h1>
-						<p class="muted">{profile.role}, {profile.location}</p>
+						<p class="muted">{profile.headline}</p>
+						<p class="muted">{profile.location}</p>
 					</div>
 				</div>
 				<ul class="contact">
@@ -40,9 +41,9 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 			</header>
 
 			<p class="lede">
-				I'm the only developer at Automotive Risk Management Partners, where I build and run their compliance
-				software with Laravel, Inertia and Vue. Before that I spent almost twelve years building WordPress
-				sites for local businesses.
+				I've been building websites and web apps for 15 years. Right now I'm the sole developer at Automotive
+				Risk Management Partners, where I build and run the company's multi-tenant Laravel platform that car
+				dealerships use for compliance, including the AI features that answer their compliance questions.
 			</p>
 
 			<ContributionGraph user={profile.github} />
@@ -82,6 +83,19 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 						</li>
 					))}
 				</ul>
+			</section>
+
+			<section aria-labelledby="case-study">
+				<h2 id="case-study">Case study</h2>
+				<h3 class="case-title">{caseStudy.title}</h3>
+				<dl class="pairs">
+					{caseStudy.parts.map((part) => (
+						<>
+							<dt>{part.label}</dt>
+							<dd>{part.text}</dd>
+						</>
+					))}
+				</dl>
 			</section>
 
 			<section aria-labelledby="skills">
@@ -282,6 +296,10 @@ const description = `${profile.name} is a ${profile.role} in ${profile.location}
 			grid-template-columns: 9rem 1fr;
 			row-gap: 0.375rem;
 		}
+	}
+
+	.case-title {
+		margin-bottom: 0.75rem;
 	}
 
 	.pairs dt {
